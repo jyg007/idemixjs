@@ -4,7 +4,7 @@ const issuerkey = require("./issuerkey.js")
 const nym = require("./nymsignature.js")
 const util = require("./utils.js")
 const signature = require("./signature.js")
-
+const revocation = require("./revocation_authority.js")
 
 
 
@@ -51,3 +51,13 @@ for (i=0;i< AttributeNames.length;i++) {
 
 signature.VerSignature(sig, disclosure, key.Ipk, msg, attrsvalues, 0, null, null)
 console.log(key.Ipk)
+
+// Generate a revocation key pair
+revocationKey = revocation.GenerateLongTermRevocationKey()
+util.LOG(revocationKey, "revocation key")
+
+let epoch = 0
+cri = revocation.CreateCRI(revocationKey.sk,  epoch, "ALG_NO_REVOCATION", )
+//util.LOG(cri,"CRI")
+
+revocation.VerifyEpochPK(revocationKey.pk, cri.EpochPk, cri.EpochPkSig, cri.Epoch, cri.RevocationAlg)
