@@ -17,12 +17,15 @@ function RandModOrder(rng) {
     return FP256BN.BIG.randomnum(q,rng);
 }
 
+
+
 /************************************************************************************* */
 /************************************************************************************* */
+let GroupOrder = new FP256BN.BIG(0);
 let GenG2 = new FP256BN.ECP2.generator();
 let GenG1 = new FP256BN.ECP.generator();
 let GenGT = FP256BN.PAIR.fexp(FP256BN.PAIR.ate(GenG2, GenG1));
-let GroupOrder = new FP256BN.BIG(0);
+
 GroupOrder.rcopy(FP256BN.ROM_CURVE.CURVE_Order);
 const FieldBytes = FP256BN.BIG.MODBYTES;
 
